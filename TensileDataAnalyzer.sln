@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TensileDataAnalyzer", "TensileDataAnalyzer\TensileDataAnalyzer.vdproj", "{9C3D11B8-8591-4E04-9295-5033EA51287A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalyzer", "DataAnalyzer\DataAnalyzer.csproj", "{116431C8-696B-47BF-BBB9-02D545600030}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataAnalyzer", "TestDataAnalyzer\TestDataAnalyzer.csproj", "{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C3D11B8-8591-4E04-9295-5033EA51287A}.Debug|Any CPU.ActiveCfg = Debug
+		{9C3D11B8-8591-4E04-9295-5033EA51287A}.Release|Any CPU.ActiveCfg = Release
+		{9C3D11B8-8591-4E04-9295-5033EA51287A}.Release|Any CPU.Build.0 = Release
+		{116431C8-696B-47BF-BBB9-02D545600030}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{116431C8-696B-47BF-BBB9-02D545600030}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{116431C8-696B-47BF-BBB9-02D545600030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{116431C8-696B-47BF-BBB9-02D545600030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7D31D21-8C21-4647-AC88-DCB9165E26D6}
+	EndGlobalSection
+EndGlobal
