@@ -69,7 +69,7 @@ namespace DataAnalyzer
             
             counter = 0;
             while ((line != "" && line != null) && (counter <= (rowEnd-rowStart))) {
-                temp = line.Split(new char[] { ',' });
+                temp = line.Split(new char[] { ',', '/', '"' }, StringSplitOptions.RemoveEmptyEntries); //Add these because some data doesn't have commas only
                 counter++;
                 list.Add(Convert.ToDouble(temp[stressCol-1]));
                 

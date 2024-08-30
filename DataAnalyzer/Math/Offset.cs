@@ -24,59 +24,80 @@ namespace DataAnalyzer.Math
 		private double yieldStress;
 		private double yieldStrain;
 		private double [,] Cout_Linear;
-		private double[,] Cout_YieldOffset;
+        private double[,] Cout_Linear_PreZero;
+        private double[,] Cout_YieldOffset;
 		private double offsetflag;
 		private	double strainOffset;
-		
-		/// <summary>
-		/// SES: This program executes whether the user has selected to calculate the offset or not, but it returns
-		/// right off the bat if the user did not check the offset box.It takes all of the combined data 
-		/// mean points, and fits a line to the points.It starts out with just the first point in the mean
-		/// data set, and adds points one by one, checking to make sure that the R^2 value is above the specified
-		/// value.  This is to isolate the data that is sufficiently linear.  Once all of the data points which
-		/// give a linear fit with an R^2 value higher than the user input, rMin, this line is adjusted in the
-		/// x-direction by the offset (note: had to convert the % offset to microstrain).  Then, the intersection
-		/// is found between the global polynomial fit and the offset line.This intersection gives the offset
-		/// yield stress and strain.  If the offset intersection cannot be found, an exception is thrown,
-		/// and caught in the main section.
-		/// </summary>
-		/// <param name="inputX"></param>
-		/// <param name="inputY"></param>
-		/// <param name="offsetArray"></param>
-		/// <exception cref="AppDomainUnloadedException"></exception>
-		public Offset(double [] inputX, double [] inputY, double [] offsetArray)
+		private double[,] rawDataForFit;
+		private Polynomial lineForZeroeing;
+        private int minPtsForFit;
+
+        /// <summary>
+        /// SES: This program executes whether the user has selected to calculate the offset or not, but it returns
+        /// right off the bat if the user did not check the offset box.It takes all of the combined data 
+        /// mean points, and fits a line to the points.It starts out with just the first point in the mean
+        /// data set, and adds points one by one, checking to make sure that the R^2 value is above the specified
+        /// value.  This is to isolate the data that is sufficiently linear.  Once all of the data points which
+        /// give a linear fit with an R^2 value higher than the user input, rMin, this line is adjusted in the
+        /// x-direction by the offset (note: had to convert the % offset to microstrain).  Then, the intersection
+        /// is found between the global polynomial fit and the offset line.This intersection gives the offset
+        /// yield stress and strain.  If the offset intersection cannot be found, an exception is thrown,
+        /// and caught in the main section.
+        /// </summary>
+        /// <param name="inputX"></param>
+        /// <param name="inputY"></param>
+        /// <param name="offsetArray"></param>
+        /// <exception cref="AppDomainUnloadedException"></exception>
+        public Offset(double [] inputX, double [] inputY, double [] offsetArray)
 		{
 			
 			percentOffset = offsetArray[1];
 			rMin = offsetArray[2];
 			offsetflag = offsetArray[0];
-			
-			//Initiate variables for the Polynomial Method
-			int i,j;
+			minPtsForFit = (int)offsetArray[3];
+
+            //Initiate variables for the Polynomial Method
+            int i,j;
 			int polyOrder = 1;
-    		Polynomial myPoly = new Polynomial();
-    		double [] SEi= new double[polyOrder+1];
-			double residualSumSquared=0;
-			double Rsquared=1;
-			Cout_Linear = new double[polyOrder+1,1];
+    		lineForZeroeing = new Polynomial();
+    		double [] SEi;
+			double residualSumSquared;
+			double Rsquared = 1.0;
 			double [] Covariancediag = new double [polyOrder+1];
 			double [] inX = new double[1];
 			double [] inY = new double[1];
 			
 			//Check each mean point to see if the R2 value is high enough to be the linear region
 			for (i = 1; i < inputX.Length; i++){
-				if (Rsquared >= rMin){
+				if (Rsquared >= rMin || i < minPtsForFit){
 					LOESS.ReDim(ref inX, i+1);
 					LOESS.ReDim(ref inY, i+1);
 					for (j = 0; j < i+1; j++){
 						inX[j] = inputX[j];
 						inY[j] = inputY[j];
 					}
-					myPoly.PolynomialFit(polyOrder,inX,inY, ref Cout_Linear, ref SEi, ref Rsquared, ref residualSumSquared);
+                    lineForZeroeing.PolynomialFit(polyOrder,inX,inY, out Cout_Linear, out SEi, out Rsquared, out residualSumSquared);
 				}
 			}
 
-			strainOffset = -1.0 * Cout_Linear[0,0] / Cout_Linear[1,0];
+            //And save the RawDataForFit and the cout_linear before the offset
+            rawDataForFit = new double[inX.Length, 2];
+            for (j = 0; j < inX.Length; j++)
+            {
+                rawDataForFit[j, 0] = inY[j];
+                rawDataForFit[j, 1] = inX[j];
+            }
+            Cout_Linear_PreZero = new double[Cout_Linear.GetLength(0), Cout_Linear.GetLength(1)];
+            for (int i1 = 0; i1 < Cout_Linear.GetLength(0); i1++)
+            {
+                for (int j1 = 0; j1 < Cout_Linear.GetLength(1); j1++)
+                {
+                    Cout_Linear_PreZero[i1, j1] = Cout_Linear[i1, j1];
+                }
+            }
+
+
+            strainOffset = -1.0 * Cout_Linear[0,0] / Cout_Linear[1,0];
 
 			//Copy the entire array
 			Cout_YieldOffset = new double[Cout_Linear.GetLength(0), Cout_Linear.GetLength(1)];
@@ -89,7 +110,7 @@ namespace DataAnalyzer.Math
             }
 
 			//Now, apply the offset to the Cout_linear
-			Cout_Linear[0, 0] -= Cout_Linear[0, 0] * strainOffset;
+			Cout_Linear[0, 0] += Cout_Linear[1, 0] * strainOffset;
 
 			Cout_YieldOffset[0,0] = Cout_YieldOffset[0,0] - Cout_YieldOffset[1,0]*percentOffset/100;
 
@@ -102,7 +123,7 @@ namespace DataAnalyzer.Math
 			//Now run through the polynomial until the difference between the polyfit and the linear offset is negative
 			for (j = 0; j < inputX.Length; j++)
 			{
-				double tempY = myPoly.EvaluatePolynomial(inputX[j], Cout_YieldOffset);
+				double tempY = Polynomial.EvaluatePolynomial(inputX[j], Cout_YieldOffset);
 
 				//If the polynomial line crosses the data line
                 if (tempY > inputY[j] && j > 0)
@@ -137,7 +158,11 @@ namespace DataAnalyzer.Math
 		public double [,] COut_Linear{
 			get{return Cout_Linear;}
 		}
-		public double[,] COut_YieldOffset
+        public double[,] COut_Linear_PreZero
+        {
+            get { return Cout_Linear_PreZero; }
+        }	
+        public double[,] COut_YieldOffset
 		{
 			get { return Cout_YieldOffset; }
 		}
@@ -147,5 +172,13 @@ namespace DataAnalyzer.Math
 		public double StrainOffset {
 			get { return strainOffset; }
 		}
-	}
+        public double[,] RawDataForFit
+        {
+            get { return rawDataForFit; }
+        }
+		public Polynomial LineForZeroeing
+		{ 
+			get { return lineForZeroeing; } 
+		}
+    }
 }

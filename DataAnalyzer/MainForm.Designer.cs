@@ -84,20 +84,25 @@ namespace DataAnalyzer
             this.axStrainCutoffTxtBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupInputsGroupBox = new System.Windows.Forms.GroupBox();
-            this.locPolyOrderTxtBx = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.globPolyOrderTxtBx = new System.Windows.Forms.TextBox();
-            this.offsetGroupBx = new System.Windows.Forms.GroupBox();
-            this.label20 = new System.Windows.Forms.Label();
+            this.cbYieldStress = new System.Windows.Forms.CheckBox();
+            this.tbMinPts = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.lOffset = new System.Windows.Forms.Label();
             this.offsetPercentTxtBx = new System.Windows.Forms.TextBox();
+            this.globPolyOrderTxtBx = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.locPolyOrderTxtBx = new System.Windows.Forms.TextBox();
             this.rMinTxtBx = new System.Windows.Forms.TextBox();
-            this.offsetCheckBx = new System.Windows.Forms.CheckBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.materialTxtBox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.plotGroupBox = new System.Windows.Forms.GroupBox();
+            this.bZeroeingPlot = new System.Windows.Forms.Button();
             this.YieldStressBttn = new System.Windows.Forms.Button();
             this.plotBttn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -139,7 +144,6 @@ namespace DataAnalyzer
             this.axStrainGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupInputsGroupBox.SuspendLayout();
-            this.offsetGroupBx.SuspendLayout();
             this.plotGroupBox.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -561,7 +565,7 @@ namespace DataAnalyzer
             // 
             // temperatureTxtBox
             // 
-            this.temperatureTxtBox.Location = new System.Drawing.Point(117, 67);
+            this.temperatureTxtBox.Location = new System.Drawing.Point(98, 37);
             this.temperatureTxtBox.Name = "temperatureTxtBox";
             this.temperatureTxtBox.Size = new System.Drawing.Size(32, 20);
             this.temperatureTxtBox.TabIndex = 20;
@@ -569,7 +573,7 @@ namespace DataAnalyzer
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(7, 71);
+            this.label9.Location = new System.Drawing.Point(12, 41);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(85, 17);
             this.label9.TabIndex = 19;
@@ -577,7 +581,7 @@ namespace DataAnalyzer
             // 
             // intervalTxtBox
             // 
-            this.intervalTxtBox.Location = new System.Drawing.Point(117, 42);
+            this.intervalTxtBox.Location = new System.Drawing.Point(417, 59);
             this.intervalTxtBox.Name = "intervalTxtBox";
             this.intervalTxtBox.Size = new System.Drawing.Size(32, 20);
             this.intervalTxtBox.TabIndex = 18;
@@ -585,7 +589,7 @@ namespace DataAnalyzer
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(7, 45);
+            this.label8.Location = new System.Drawing.Point(339, 61);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(127, 17);
             this.label8.TabIndex = 17;
@@ -597,9 +601,9 @@ namespace DataAnalyzer
             this.analyzeBttn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.analyzeBttn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.analyzeBttn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.analyzeBttn.Location = new System.Drawing.Point(549, 15);
+            this.analyzeBttn.Location = new System.Drawing.Point(589, 13);
             this.analyzeBttn.Name = "analyzeBttn";
-            this.analyzeBttn.Size = new System.Drawing.Size(111, 46);
+            this.analyzeBttn.Size = new System.Drawing.Size(72, 23);
             this.analyzeBttn.TabIndex = 16;
             this.analyzeBttn.Text = "Analyze";
             this.analyzeBttn.UseVisualStyleBackColor = false;
@@ -607,17 +611,17 @@ namespace DataAnalyzer
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(6, 15);
+            this.label6.Location = new System.Drawing.Point(475, 62);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 26);
+            this.label6.Size = new System.Drawing.Size(120, 19);
             this.label6.TabIndex = 13;
-            this.label6.Text = "Axial Strain Cutoff \r\n   (strain)";
+            this.label6.Text = "Strain Cutoff";
             // 
             // axStrainCutoffTxtBox
             // 
-            this.axStrainCutoffTxtBox.Location = new System.Drawing.Point(117, 17);
+            this.axStrainCutoffTxtBox.Location = new System.Drawing.Point(550, 59);
             this.axStrainCutoffTxtBox.Name = "axStrainCutoffTxtBox";
-            this.axStrainCutoffTxtBox.Size = new System.Drawing.Size(51, 20);
+            this.axStrainCutoffTxtBox.Size = new System.Drawing.Size(34, 20);
             this.axStrainCutoffTxtBox.TabIndex = 12;
             this.axStrainCutoffTxtBox.Text = "0.1";
             // 
@@ -633,52 +637,95 @@ namespace DataAnalyzer
             // groupInputsGroupBox
             // 
             this.groupInputsGroupBox.BackColor = System.Drawing.SystemColors.Control;
-            this.groupInputsGroupBox.Controls.Add(this.locPolyOrderTxtBx);
-            this.groupInputsGroupBox.Controls.Add(this.label21);
+            this.groupInputsGroupBox.Controls.Add(this.cbYieldStress);
+            this.groupInputsGroupBox.Controls.Add(this.analyzeBttn);
+            this.groupInputsGroupBox.Controls.Add(this.tbMinPts);
+            this.groupInputsGroupBox.Controls.Add(this.label28);
+            this.groupInputsGroupBox.Controls.Add(this.label27);
+            this.groupInputsGroupBox.Controls.Add(this.lOffset);
+            this.groupInputsGroupBox.Controls.Add(this.offsetPercentTxtBx);
             this.groupInputsGroupBox.Controls.Add(this.globPolyOrderTxtBx);
-            this.groupInputsGroupBox.Controls.Add(this.offsetGroupBx);
+            this.groupInputsGroupBox.Controls.Add(this.axStrainCutoffTxtBox);
+            this.groupInputsGroupBox.Controls.Add(this.label6);
+            this.groupInputsGroupBox.Controls.Add(this.label26);
+            this.groupInputsGroupBox.Controls.Add(this.label25);
+            this.groupInputsGroupBox.Controls.Add(this.label24);
+            this.groupInputsGroupBox.Controls.Add(this.locPolyOrderTxtBx);
             this.groupInputsGroupBox.Controls.Add(this.rMinTxtBx);
-            this.groupInputsGroupBox.Controls.Add(this.offsetCheckBx);
             this.groupInputsGroupBox.Controls.Add(this.label18);
             this.groupInputsGroupBox.Controls.Add(this.label7);
             this.groupInputsGroupBox.Controls.Add(this.label17);
             this.groupInputsGroupBox.Controls.Add(this.materialTxtBox);
             this.groupInputsGroupBox.Controls.Add(this.label11);
-            this.groupInputsGroupBox.Controls.Add(this.axStrainCutoffTxtBox);
             this.groupInputsGroupBox.Controls.Add(this.intervalTxtBox);
             this.groupInputsGroupBox.Controls.Add(this.temperatureTxtBox);
-            this.groupInputsGroupBox.Controls.Add(this.label6);
             this.groupInputsGroupBox.Controls.Add(this.label9);
-            this.groupInputsGroupBox.Controls.Add(this.analyzeBttn);
             this.groupInputsGroupBox.Controls.Add(this.label8);
             this.groupInputsGroupBox.Location = new System.Drawing.Point(12, 232);
             this.groupInputsGroupBox.Name = "groupInputsGroupBox";
-            this.groupInputsGroupBox.Size = new System.Drawing.Size(667, 96);
+            this.groupInputsGroupBox.Size = new System.Drawing.Size(667, 125);
             this.groupInputsGroupBox.TabIndex = 4;
             this.groupInputsGroupBox.TabStop = false;
             this.groupInputsGroupBox.Text = "Group Inputs";
             this.groupInputsGroupBox.Visible = false;
             // 
-            // locPolyOrderTxtBx
+            // cbYieldStress
             // 
-            this.locPolyOrderTxtBx.Location = new System.Drawing.Point(264, 66);
-            this.locPolyOrderTxtBx.Name = "locPolyOrderTxtBx";
-            this.locPolyOrderTxtBx.Size = new System.Drawing.Size(21, 20);
-            this.locPolyOrderTxtBx.TabIndex = 36;
-            this.locPolyOrderTxtBx.Text = "1";
-            this.locPolyOrderTxtBx.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cbYieldStress.AutoSize = true;
+            this.cbYieldStress.Location = new System.Drawing.Point(173, 83);
+            this.cbYieldStress.Name = "cbYieldStress";
+            this.cbYieldStress.Size = new System.Drawing.Size(87, 17);
+            this.cbYieldStress.TabIndex = 43;
+            this.cbYieldStress.Text = "Yield Stress?";
+            this.cbYieldStress.UseVisualStyleBackColor = true;
+            this.cbYieldStress.CheckedChanged += new System.EventHandler(this.cbYieldStress_CheckedChanged);
             // 
-            // label21
+            // tbMinPts
             // 
-            this.label21.Location = new System.Drawing.Point(324, 19);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(99, 18);
-            this.label21.TabIndex = 29;
-            this.label21.Text = "Zeroeing R^2 Min";
+            this.tbMinPts.Location = new System.Drawing.Point(253, 59);
+            this.tbMinPts.Name = "tbMinPts";
+            this.tbMinPts.Size = new System.Drawing.Size(52, 20);
+            this.tbMinPts.TabIndex = 42;
+            this.tbMinPts.Text = "2";
+            this.tbMinPts.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label28
+            // 
+            this.label28.Location = new System.Drawing.Point(172, 42);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(75, 16);
+            this.label28.TabIndex = 41;
+            this.label28.Text = "R^2 Minimum";
+            // 
+            // label27
+            // 
+            this.label27.Location = new System.Drawing.Point(172, 63);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(88, 19);
+            this.label27.TabIndex = 40;
+            this.label27.Text = "Minimum Points";
+            // 
+            // lOffset
+            // 
+            this.lOffset.Enabled = false;
+            this.lOffset.Location = new System.Drawing.Point(195, 100);
+            this.lOffset.Name = "lOffset";
+            this.lOffset.Size = new System.Drawing.Size(48, 17);
+            this.lOffset.TabIndex = 28;
+            this.lOffset.Text = "% Offset";
+            // 
+            // offsetPercentTxtBx
+            // 
+            this.offsetPercentTxtBx.Enabled = false;
+            this.offsetPercentTxtBx.Location = new System.Drawing.Point(246, 97);
+            this.offsetPercentTxtBx.Name = "offsetPercentTxtBx";
+            this.offsetPercentTxtBx.Size = new System.Drawing.Size(32, 20);
+            this.offsetPercentTxtBx.TabIndex = 31;
+            this.offsetPercentTxtBx.Text = "0.02";
             // 
             // globPolyOrderTxtBx
             // 
-            this.globPolyOrderTxtBx.Location = new System.Drawing.Point(264, 40);
+            this.globPolyOrderTxtBx.Location = new System.Drawing.Point(563, 38);
             this.globPolyOrderTxtBx.Name = "globPolyOrderTxtBx";
             this.globPolyOrderTxtBx.Size = new System.Drawing.Size(21, 20);
             this.globPolyOrderTxtBx.TabIndex = 35;
@@ -686,86 +733,86 @@ namespace DataAnalyzer
             this.globPolyOrderTxtBx.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.globPolyOrderTxtBx.TextChanged += new System.EventHandler(this.GlobPolyOrderTxtBxTextChanged);
             // 
-            // offsetGroupBx
+            // label26
             // 
-            this.offsetGroupBx.Controls.Add(this.label20);
-            this.offsetGroupBx.Controls.Add(this.offsetPercentTxtBx);
-            this.offsetGroupBx.Location = new System.Drawing.Point(318, 56);
-            this.offsetGroupBx.Name = "offsetGroupBx";
-            this.offsetGroupBx.Size = new System.Drawing.Size(163, 35);
-            this.offsetGroupBx.TabIndex = 34;
-            this.offsetGroupBx.TabStop = false;
-            this.offsetGroupBx.Visible = false;
+            this.label26.BackColor = System.Drawing.Color.Transparent;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(463, 19);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(127, 17);
+            this.label26.TabIndex = 39;
+            this.label26.Text = "Global Regression";
             // 
-            // label20
+            // label25
             // 
-            this.label20.Location = new System.Drawing.Point(6, 13);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(48, 17);
-            this.label20.TabIndex = 28;
-            this.label20.Text = "% Offset";
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(4, 19);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(103, 17);
+            this.label25.TabIndex = 38;
+            this.label25.Text = "Labels";
             // 
-            // offsetPercentTxtBx
+            // label24
             // 
-            this.offsetPercentTxtBx.Location = new System.Drawing.Point(107, 10);
-            this.offsetPercentTxtBx.Name = "offsetPercentTxtBx";
-            this.offsetPercentTxtBx.Size = new System.Drawing.Size(32, 20);
-            this.offsetPercentTxtBx.TabIndex = 31;
-            this.offsetPercentTxtBx.Text = ".02";
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(166, 19);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(127, 17);
+            this.label24.TabIndex = 37;
+            this.label24.Text = "Zeroeing";
+            // 
+            // locPolyOrderTxtBx
+            // 
+            this.locPolyOrderTxtBx.Location = new System.Drawing.Point(428, 38);
+            this.locPolyOrderTxtBx.Name = "locPolyOrderTxtBx";
+            this.locPolyOrderTxtBx.Size = new System.Drawing.Size(21, 20);
+            this.locPolyOrderTxtBx.TabIndex = 36;
+            this.locPolyOrderTxtBx.Text = "1";
+            this.locPolyOrderTxtBx.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // rMinTxtBx
             // 
-            this.rMinTxtBx.Location = new System.Drawing.Point(425, 17);
+            this.rMinTxtBx.Location = new System.Drawing.Point(252, 39);
             this.rMinTxtBx.Name = "rMinTxtBx";
             this.rMinTxtBx.Size = new System.Drawing.Size(53, 20);
             this.rMinTxtBx.TabIndex = 32;
             this.rMinTxtBx.Text = ".9999";
             // 
-            // offsetCheckBx
-            // 
-            this.offsetCheckBx.Location = new System.Drawing.Point(327, 37);
-            this.offsetCheckBx.Name = "offsetCheckBx";
-            this.offsetCheckBx.Size = new System.Drawing.Size(115, 24);
-            this.offsetCheckBx.TabIndex = 33;
-            this.offsetCheckBx.Text = "Offset Yield Stress";
-            this.offsetCheckBx.UseVisualStyleBackColor = true;
-            this.offsetCheckBx.CheckedChanged += new System.EventHandler(this.OffsetCheckBxCheckedChanged);
-            // 
             // label18
             // 
-            this.label18.Location = new System.Drawing.Point(183, 47);
+            this.label18.Location = new System.Drawing.Point(474, 41);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(82, 20);
+            this.label18.Size = new System.Drawing.Size(92, 21);
             this.label18.TabIndex = 25;
-            this.label18.Text = "Global";
+            this.label18.Text = "Polynomial Order";
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(183, 71);
+            this.label7.Location = new System.Drawing.Point(339, 41);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(82, 20);
+            this.label7.Size = new System.Drawing.Size(96, 20);
             this.label7.TabIndex = 24;
-            this.label7.Text = "Local (LOESS)";
+            this.label7.Text = "Polynomial Order";
             // 
             // label17
             // 
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(183, 20);
+            this.label17.Location = new System.Drawing.Point(328, 19);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(127, 17);
             this.label17.TabIndex = 23;
-            this.label17.Text = "Order of Polynomial Fit";
+            this.label17.Text = "LOESS Regression ";
             // 
             // materialTxtBox
             // 
-            this.materialTxtBox.Location = new System.Drawing.Point(492, 66);
+            this.materialTxtBox.Location = new System.Drawing.Point(15, 77);
             this.materialTxtBox.Name = "materialTxtBox";
-            this.materialTxtBox.Size = new System.Drawing.Size(166, 20);
+            this.materialTxtBox.Size = new System.Drawing.Size(131, 20);
             this.materialTxtBox.TabIndex = 22;
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(487, 46);
+            this.label11.Location = new System.Drawing.Point(12, 61);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(51, 17);
             this.label11.TabIndex = 21;
@@ -774,13 +821,14 @@ namespace DataAnalyzer
             // plotGroupBox
             // 
             this.plotGroupBox.BackColor = System.Drawing.SystemColors.Control;
+            this.plotGroupBox.Controls.Add(this.bZeroeingPlot);
             this.plotGroupBox.Controls.Add(this.YieldStressBttn);
             this.plotGroupBox.Controls.Add(this.plotBttn);
             this.plotGroupBox.Controls.Add(this.groupBox2);
             this.plotGroupBox.Controls.Add(this.groupBox3);
             this.plotGroupBox.Controls.Add(this.typeGroupBox);
             this.plotGroupBox.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.plotGroupBox.Location = new System.Drawing.Point(11, 334);
+            this.plotGroupBox.Location = new System.Drawing.Point(13, 363);
             this.plotGroupBox.Name = "plotGroupBox";
             this.plotGroupBox.Size = new System.Drawing.Size(319, 176);
             this.plotGroupBox.TabIndex = 5;
@@ -788,10 +836,21 @@ namespace DataAnalyzer
             this.plotGroupBox.Text = "Plotting Options";
             this.plotGroupBox.Visible = false;
             // 
+            // bZeroeingPlot
+            // 
+            this.bZeroeingPlot.Enabled = false;
+            this.bZeroeingPlot.Location = new System.Drawing.Point(233, 79);
+            this.bZeroeingPlot.Name = "bZeroeingPlot";
+            this.bZeroeingPlot.Size = new System.Drawing.Size(75, 23);
+            this.bZeroeingPlot.TabIndex = 7;
+            this.bZeroeingPlot.Text = "Zeroeing";
+            this.bZeroeingPlot.UseVisualStyleBackColor = true;
+            this.bZeroeingPlot.Click += new System.EventHandler(this.bZeroeingPlot_Click);
+            // 
             // YieldStressBttn
             // 
             this.YieldStressBttn.Enabled = false;
-            this.YieldStressBttn.Location = new System.Drawing.Point(221, 145);
+            this.YieldStressBttn.Location = new System.Drawing.Point(231, 104);
             this.YieldStressBttn.Name = "YieldStressBttn";
             this.YieldStressBttn.Size = new System.Drawing.Size(75, 23);
             this.YieldStressBttn.TabIndex = 6;
@@ -801,7 +860,7 @@ namespace DataAnalyzer
             // 
             // plotBttn
             // 
-            this.plotBttn.Location = new System.Drawing.Point(221, 94);
+            this.plotBttn.Location = new System.Drawing.Point(220, 137);
             this.plotBttn.Name = "plotBttn";
             this.plotBttn.Size = new System.Drawing.Size(75, 29);
             this.plotBttn.TabIndex = 3;
@@ -944,7 +1003,7 @@ namespace DataAnalyzer
             this.dataFilesGroupBox.Controls.Add(this.fileWriteBttn);
             this.dataFilesGroupBox.Controls.Add(this.groupBox5);
             this.dataFilesGroupBox.Controls.Add(this.groupBox4);
-            this.dataFilesGroupBox.Location = new System.Drawing.Point(343, 334);
+            this.dataFilesGroupBox.Location = new System.Drawing.Point(344, 363);
             this.dataFilesGroupBox.Name = "dataFilesGroupBox";
             this.dataFilesGroupBox.Size = new System.Drawing.Size(335, 176);
             this.dataFilesGroupBox.TabIndex = 6;
@@ -1099,7 +1158,7 @@ namespace DataAnalyzer
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(693, 522);
+            this.ClientSize = new System.Drawing.Size(693, 570);
             this.Controls.Add(this.dataFilesGroupBox);
             this.Controls.Add(this.plotGroupBox);
             this.Controls.Add(this.groupInputsGroupBox);
@@ -1129,8 +1188,6 @@ namespace DataAnalyzer
             this.groupBox1.PerformLayout();
             this.groupInputsGroupBox.ResumeLayout(false);
             this.groupInputsGroupBox.PerformLayout();
-            this.offsetGroupBx.ResumeLayout(false);
-            this.offsetGroupBx.PerformLayout();
             this.plotGroupBox.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -1151,16 +1208,12 @@ namespace DataAnalyzer
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.GroupBox groupBox7;
 		private System.Windows.Forms.Button YieldStressBttn;
-		private System.Windows.Forms.TextBox locPolyOrderTxtBx;
 		private System.Windows.Forms.TextBox globPolyOrderTxtBx;
-		private System.Windows.Forms.GroupBox offsetGroupBx;
-		private System.Windows.Forms.CheckBox offsetCheckBx;
 		private System.Windows.Forms.TextBox rMinTxtBx;
 		private System.Windows.Forms.TextBox offsetPercentTxtBx;
 		private System.Windows.Forms.NumericUpDown axChan;
 		private System.Windows.Forms.NumericUpDown tranChan;
-		private System.Windows.Forms.Label label20;
-		private System.Windows.Forms.Label label21;
+		private System.Windows.Forms.Label lOffset;
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Button previewBttn;
@@ -1233,9 +1286,14 @@ namespace DataAnalyzer
 		private System.Windows.Forms.GroupBox inputGroupBox;
 		private System.Windows.Forms.TextBox openFileTxt;
 		private System.Windows.Forms.Button Browse;
-		
-		
-		
-		
-	}
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox tbMinPts;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox locPolyOrderTxtBx;
+        private System.Windows.Forms.CheckBox cbYieldStress;
+        private System.Windows.Forms.Button bZeroeingPlot;
+    }
 }

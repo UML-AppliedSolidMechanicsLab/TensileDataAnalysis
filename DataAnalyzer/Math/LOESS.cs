@@ -62,12 +62,11 @@ namespace DataAnalyzer.Math
 			int j, k, l, Count;
 			int Flag = 0;
 			double Xstart, Xend;
-			double Rsquared = 0;
-			double residualSumSquared = 0;
+			double Rsquared,  residualSumSquared;
 			double[] TempX = new double[0];
 			double[] TempY = new double[0];
-			double [] SEi= new double[inPolynomialOrder+1];
-			double [,] Cout = new double[inPolynomialOrder+1,1];
+			double [] SEi;
+			double [,] Cout;
 				
 			Array.Sort(inX, inY);
 			//Get the data sorted in x ascending order)
@@ -100,9 +99,9 @@ namespace DataAnalyzer.Math
     			//Redimension arrays TempX and Y to get rid of zeros
     			
 				Polynomial LOESSPoly = new Polynomial();
-				LOESSPoly.PolynomialFit(inPolynomialOrder, TempX, TempY, ref Cout, 
-				                        ref SEi, ref Rsquared, ref residualSumSquared);
-				Ybar[i] = LOESSPoly.EvaluatePolynomial(0, Cout);
+				LOESSPoly.PolynomialFit(inPolynomialOrder, TempX, TempY, out Cout, 
+				                        out SEi, out Rsquared, out residualSumSquared);
+				Ybar[i] = Polynomial.EvaluatePolynomial(0, Cout);
 				//Should be the same as a0 because xbar is scaled to be zero
 				N[i] = TempX.Length;
 				double temp = (residualSumSquared/(N[i]-(inPolynomialOrder+1)));

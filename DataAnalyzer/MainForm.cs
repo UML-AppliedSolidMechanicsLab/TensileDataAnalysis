@@ -27,7 +27,6 @@ namespace DataAnalyzer
 	public partial class MainForm : Form 
 	{
 		private int dispflag = 0;
-		private int offsetflag = 0;
 		private int numberofFiles = 0;
 		private int numberofTranFiles = 0;
 		private int stringIndex1, stringIndex2;//, i, j;
@@ -80,7 +79,7 @@ namespace DataAnalyzer
             	stringIndex2 = openFileTxt.Text.LastIndexOf("v");
             	openFileTxt.Text = openFileTxt.Text.Remove(stringIndex1,stringIndex2-stringIndex1+1);
 				
-				FindMinAndMax(openFileTxt.Text, 0, out int firstIndex, out int lastIndex);
+				FindMinAndMax(openFileTxt.Text, 0, 1, out int firstIndex, out int lastIndex);
 				rowEndTxtBox.Text = Convert.ToString(lastIndex);
 				rowStartTxtBox.Text= Convert.ToString(firstIndex);
             	
@@ -143,7 +142,7 @@ namespace DataAnalyzer
 				return;
 			}
 			try{
-				FindMinAndMax(openFileTxt.Text, Convert.ToInt32(axChan.Text), out int firstIndex, out int lastIndex);
+				FindMinAndMax(openFileTxt.Text, Convert.ToInt32(axChan.Text), Convert.ToInt32(tbStressCol.Text) - 1, out int firstIndex, out int lastIndex);
 				int rowStart = Convert.ToInt32(rowStartTxtBox.Text) > firstIndex  && Convert.ToInt32(rowStartTxtBox.Text) < lastIndex  
 					? Convert.ToInt32(rowStartTxtBox.Text) : firstIndex;
 				int rowEnd = Convert.ToInt32(rowEndTxtBox.Text) < lastIndex && Convert.ToInt32(rowEndTxtBox.Text)  > rowStart
@@ -291,24 +290,16 @@ namespace DataAnalyzer
 				}
 			
 			if ((Convert.ToInt32(globPolyOrderTxtBx.Text)) == 1){
-				offsetCheckBx.Enabled = false;
-				offsetCheckBx.Checked = false;
-			offsetGroupBx.Visible = false;}
+				cbYieldStress.Enabled = false;
+                cbYieldStress.Checked = false;
+				lOffset.Enabled = false;
+                offsetPercentTxtBx.Enabled = false;
+            }
 			else{
-				offsetCheckBx.Enabled = true;
+                cbYieldStress.Enabled = true;
 			}
 		}
-		void OffsetCheckBxCheckedChanged(object sender, EventArgs e)
-		{
-			if (offsetCheckBx.Checked == true ){
-			offsetGroupBx.Visible = true;
-			offsetflag = 1;
-			}
-			else{
-				offsetGroupBx.Visible = false;
-				offsetflag = 0;
-			}
-		}
+		
 		void AnalyzeBttnClick(object sender, EventArgs e){
 			//first, check to make sure inputs are of the proper format
 			try{
@@ -317,7 +308,8 @@ namespace DataAnalyzer
 				Convert.ToDouble(globPolyOrderTxtBx.Text);
 				Convert.ToDouble(locPolyOrderTxtBx.Text);
 				Convert.ToDouble(rMinTxtBx.Text);
-				if (offsetflag == 1){
+				Convert.ToInt32(tbMinPts.Text);
+				if (cbYieldStress.Checked){
 					Convert.ToDouble(offsetPercentTxtBx.Text);
 				}
 			}
@@ -341,10 +333,12 @@ namespace DataAnalyzer
 			groupInputsList[6] = (numberofTranFiles.ToString());
 			
 			
-			double [] offsetArray = new double [3];
-			offsetArray[0] = offsetflag;
+			double [] offsetArray = new double [4];
+			offsetArray[0] = cbYieldStress.Checked ? 1.0 : 0.0;
 			offsetArray[2] = (Convert.ToDouble(rMinTxtBx.Text));
-			if (offsetflag == 1){
+            offsetArray[3] = (Convert.ToDouble(tbMinPts.Text));
+            if (cbYieldStress.Checked)
+            {
 				offsetArray[1] =(Convert.ToDouble(offsetPercentTxtBx.Text));
 			}
 			
@@ -417,7 +411,8 @@ namespace DataAnalyzer
 		void FileNumRadioBttn1CheckedChanged(object sender, EventArgs e)
 		{
 			fileNumberBox.Enabled = true;
-            if (offsetCheckBx.Checked == true)
+			bZeroeingPlot.Enabled = true;
+            if (cbYieldStress.Checked == true)
             {
 				YieldStressBttn.Enabled = true;
 			}
@@ -427,7 +422,8 @@ namespace DataAnalyzer
 		void AllRadioBttnCheckedChanged(object sender, EventArgs e)
 		{
 			fileNumberBox.Enabled = false;
-			YieldStressBttn.Enabled = false;
+            bZeroeingPlot.Enabled = false;
+            YieldStressBttn.Enabled = false;
 			fileNumber = 0;
 		}
 		//Warning: this section is HUGE, so don't get into it unless you really have some time!!!
@@ -525,42 +521,44 @@ namespace DataAnalyzer
 			pm.PlotMaker15();
 		}
 
-		private void FindMinAndMax(string root, int indexOfStrain, out int firstIndex, out int lastIndex)
+        private void cbYieldStress_CheckedChanged(object sender, EventArgs e)
         {
-			// Read the file line by line. (3 to initialize because there are 2 rows of labels)
-			System.IO.StreamReader file = new System.IO.StreamReader(root + ".csv");
-			bool firstFlag = false;
-			bool lastFlag = false;
-			int i = 0;
-			firstIndex = 0;
-			lastIndex = 0;
-            //this section just reads the lines prior to the start of the data
-            while (!firstFlag || !lastFlag)
+			lOffset.Enabled = cbYieldStress.Checked;
+			offsetPercentTxtBx.Enabled = cbYieldStress.Checked;
+        }
+
+        private void bZeroeingPlot_Click(object sender, EventArgs e)
+        {
+            //Plot raw data, zeroed data, data used for linear fit, and linear fit
+            fileNumber = Convert.ToInt16(fileNumberBox.Text);
+            PlotMaker pm = new PlotMaker(analyze, numberofFiles, temperature, material, fileNumber);
+            pm.PlotMaker16();
+        }
+
+        private void FindMinAndMax(string root, int indexOfStrain, int indexOfStress, out int firstIndex, out int lastIndex)
+        {
+            firstIndex = -1;
+            lastIndex = -1;
+
+            string[] lines = File.ReadAllLines(root + ".csv");
+
+            for (int i = 0; i < lines.Length; i++)
             {
-				try
+                string line = lines[i];
+                string[] values = line.Split(new char[] { ',', '/', '"' }, StringSplitOptions.RemoveEmptyEntries);
+
+				if (indexOfStrain < values.Length && double.TryParse(values[indexOfStrain], out _))
 				{
-					string line = file.ReadLine();
-					string[] temp = line.Split(new char[] { ',' });
-					Convert.ToDouble(temp[indexOfStrain]);
-					//This should just happen the first time the double is 
-					if (!firstFlag)
+					if (indexOfStress < values.Length && double.TryParse(values[indexOfStress], out _))
+					{ 
+					if (firstIndex == -1)
 					{
-						firstFlag = true;
-						firstIndex = i+1;
+						firstIndex = i + 1;
 					}
-					i++;
+					lastIndex = i + 1;
 				}
-                catch (Exception)
-                {
-                    if (firstFlag)
-					{
-						lastFlag = true;
-						lastIndex = i;
-					}
-					i++;
                 }
-				
             }
-		}
-	}
+        }
+    }
 }

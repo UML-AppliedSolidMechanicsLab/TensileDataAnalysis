@@ -73,12 +73,7 @@ namespace DataAnalyzer.Math
 			
 			//Now fit mean x and y to a polynomial
 			Polynomial myPoly = new Polynomial();
-			double [] SEi= new double[globPolyOrder+1];
-			double residualSumSquared=0;
-			double Rsquared=0;
-			Cout = new double[globPolyOrder+1,1];
-			
-			myPoly.PolynomialFit(globPolyOrder,Xbar,Ybar, ref Cout,ref SEi,ref Rsquared,ref residualSumSquared);
+            myPoly.PolynomialFit(globPolyOrder,Xbar,Ybar, out Cout, out _, out _, out _);
 			
 			#region Now run through from the first Xbar back and evaluate the poly until the y is negative to zero it
 			/*

@@ -69,17 +69,13 @@ namespace DataAnalyzer.Math
     		
     		//Now fit a polynomial to all of the LOESS points
     		Polynomial myPoly = new Polynomial();
-    		double [] SEi= new double[globPolyOrder+1];
-			rSquared=0;
-			double residualSumSquared = 0;
-			Cout = new double[globPolyOrder+1,1];
 
 			//add the 0,0 point so that the polynomial fit will be legit
 			LOESS.ReDim(ref Xbar, Xbar.Length + 1);
 			LOESS.ReDim(ref Ybar, Ybar.Length + 1);
 			Array.Sort(Xbar, Ybar); //This sorts the arrays, and puts 0,0 at the beginning
 
-			myPoly.PolynomialFit(globPolyOrder,Xbar,Ybar, ref Cout,ref SEi,ref rSquared, ref residualSumSquared);
+			myPoly.PolynomialFit(globPolyOrder,Xbar,Ybar, out Cout, out double[] SEi,out rSquared, out double residualSumSquared);
 			finalCoefficients = new double [globPolyOrder+1];
 			finalSECoefficients = new double [globPolyOrder+1];
 			finalSECoefficients = SEi;

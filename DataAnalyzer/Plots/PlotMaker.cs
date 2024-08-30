@@ -11,6 +11,7 @@ using System;
 using ZedGraph;
 using System.Windows.Forms;
 using DataAnalyzer.Math;
+using System.Drawing;
 
 namespace DataAnalyzer.Plots
 
@@ -144,7 +145,7 @@ namespace DataAnalyzer.Plots
 						for (j = 0; j < 500; j++){
 								Polynomial poly = new Polynomial();
 								tempx = 0 + (analyze.Cutoff/500)*j;
-								list16.Add(tempx, poly.EvaluatePolynomial(tempx,analyze.Total.FinalCout));
+								list16.Add(tempx, Polynomial.EvaluatePolynomial(tempx,analyze.Total.FinalCout));
 							}
 						Plot3e pl3a = new Plot3e(list13, list14, list15, list16, "All Specimens: " + material + ": " 
 						                         + temperature + "K ", "Strain", "Stress",  
@@ -169,7 +170,7 @@ namespace DataAnalyzer.Plots
 						for (j = 0; j < 500; j++){
 								Polynomial poly = new Polynomial();
 								tempx = analyze.ZeroData[i].OffsetData.StrainOffset + (analyze.Cutoff/500)*j;
-								list19.Add(tempx, poly.EvaluatePolynomial(tempx,analyze.ZeroData[i].TotalCout));
+								list19.Add(tempx, Polynomial.EvaluatePolynomial(tempx,analyze.ZeroData[i].TotalCout));
 							}
 						
 					Plot3e pl2b = new Plot3e(list16, list17, list18, list19, "Specimen "+ fileNumber + ": " + material + ": " + temperature + "K ", "Strain",
@@ -200,7 +201,7 @@ namespace DataAnalyzer.Plots
 						for (j = 0; j < 500; j++){
 								Polynomial poly = new Polynomial();
 								tempx = 0 + (analyze.Cutoff/500)*j;
-									list22.Add(tempx, poly.EvaluatePolynomial(tempx,analyze.NU.FinalCout));
+									list22.Add(tempx, Polynomial.EvaluatePolynomial(tempx,analyze.NU.FinalCout));
 							}
 		
 						Plot3e pl2c = new Plot3e(list19, list20, list21, list22, "All Specimens: " + material + ": " 
@@ -234,7 +235,7 @@ namespace DataAnalyzer.Plots
 							for (j = 0; j < 500; j++){
 								Polynomial poly = new Polynomial();
 								tempx = 0 + (analyze.Cutoff/500)*j;
-									list25.Add(tempx, poly.EvaluatePolynomial(tempx,analyze.ZeroNUData[i].TotalCout));
+									list25.Add(tempx, Polynomial.EvaluatePolynomial(tempx,analyze.ZeroNUData[i].TotalCout));
 							}
 						
 						Plot3e pl2c = new Plot3e(list22, list23, list24, list25, "Specimen "+ fileNumber + ": " 
@@ -441,9 +442,9 @@ namespace DataAnalyzer.Plots
 					+ analyze.ZeroData[fileNumber].SECoefficients[j,0],
 					  analyze.ZeroData[fileNumber].MeanData[j, 0] - analyze.ZeroData[fileNumber].SECoefficients[j, 0]);
 			}
-			list16.Add(0, poly.EvaluatePolynomial(0, analyze.ZeroData[fileNumber].OffsetData.COut_YieldOffset));
+			list16.Add(0, Polynomial.EvaluatePolynomial(0, analyze.ZeroData[fileNumber].OffsetData.COut_YieldOffset));
 			list16.Add(1.1 * analyze.ZeroData[fileNumber].OffsetData.YieldStrain,
-					   poly.EvaluatePolynomial(1.1 * analyze.ZeroData[fileNumber].OffsetData.YieldStrain, 
+                        Polynomial.EvaluatePolynomial(1.1 * analyze.ZeroData[fileNumber].OffsetData.YieldStrain, 
 					   analyze.ZeroData[fileNumber].OffsetData.COut_YieldOffset));
 			list13.Add(analyze.ZeroData[fileNumber].OffsetData.YieldStrain,
 					  analyze.ZeroData[fileNumber].OffsetData.YieldStress);
@@ -466,5 +467,51 @@ namespace DataAnalyzer.Plots
 						                         + temperature + "K ", "Strain ", "Stress",  
 						                         " Yield Stress","Mean Points", "error", "Offset");
 		}
-	}
+
+        public void PlotMaker16()
+        {
+            //Plot 2:  selected specimen, stress vs strain, raw, zeroed, raw data used for zeroeing, and linear fit
+            i = fileNumber - 1;
+            PointPairList rawList = new PointPairList();
+			PointPairList zeroedList = new PointPairList();
+			PointPairList linearZeroedList = new PointPairList();
+
+            //Raw Data
+            for (k = 0; k < analyze.RawData[i].AxChan; k++)
+            {
+                for (j = 0; j < analyze.RawData[i].RawData.GetUpperBound(0) + 1; j++)
+                {
+                    rawList.Add(analyze.RawData[i].RawData[j, 1 + k], analyze.RawData[i].RawData[j, 0]);
+                }
+            }
+            //Zeroed Data
+            for (j = 0; j < analyze.ZeroData[i].ZeroedData.GetUpperBound(0) + 1; j++)
+            {
+                zeroedList.Add(analyze.ZeroData[i].ZeroedData[j, 1], analyze.ZeroData[i].ZeroedData[j, 0]);
+            }
+			//Raw Data used for Zeroeing
+            for (j = 0; j < analyze.ZeroData[i].OffsetData.RawDataForFit.GetUpperBound(0) + 1; j++)
+            {
+                linearZeroedList.Add(analyze.ZeroData[i].OffsetData.RawDataForFit[j, 1], analyze.ZeroData[i].ZeroedData[j, 0]);
+            }
+
+
+            //Now make a line for the linear fit???
+            PointPairList linearFit1 = new PointPairList();
+			linearFit1.Add(0.0, Polynomial.EvaluatePolynomial(0, analyze.ZeroData[i].OffsetData.COut_Linear_PreZero));
+			double lastx = analyze.RawData[i].RawData[analyze.RawData[i].RawData.GetUpperBound(0), 1];
+            linearFit1.Add(lastx, Polynomial.EvaluatePolynomial(lastx, analyze.ZeroData[i].OffsetData.COut_Linear_PreZero));
+
+            //Now make a line for the linear fit???
+            PointPairList linearFit2 = new PointPairList();
+            linearFit2.Add(0.0, Polynomial.EvaluatePolynomial(0, analyze.ZeroData[i].OffsetData.COut_Linear));
+            double lastx2 = analyze.RawData[i].RawData[analyze.ZeroData[i].ZeroedData.GetUpperBound(0), 1];
+            linearFit2.Add(lastx2, Polynomial.EvaluatePolynomial(lastx2, analyze.ZeroData[i].OffsetData.COut_Linear));
+
+
+            Plot5 pl5 = new Plot5(rawList, zeroedList, linearZeroedList, linearFit1, linearFit2, "Specimen " + fileNumber + ": " + material + ": " + temperature + "K ", "Strain",
+                                             "Stress", "Raw Data", "Zeroed", "Raw Data Used for Linear Fit", "Linear Fit for Zeroeing", "Linear Fit for Zeroed");
+
+        }
+    }
 }
