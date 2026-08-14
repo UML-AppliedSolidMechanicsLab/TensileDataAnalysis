@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34616.47
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.12023.21
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TensileDataAnalyzer", "TensileDataAnalyzer\TensileDataAnalyzer.vdproj", "{9C3D11B8-8591-4E04-9295-5033EA51287A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalyzer", "DataAnalyzer\DataAnalyzer.csproj", "{8043A7BC-191D-16CE-75BA-37383233F99B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalyzer", "DataAnalyzer\DataAnalyzer.csproj", "{116431C8-696B-47BF-BBB9-02D545600030}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataAnalyzer", "TestDataAnalyzer\TestDataAnalyzer.csproj", "{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataAnalyzer", "TestDataAnalyzer\TestDataAnalyzer.csproj", "{6DF7FCC4-2835-5786-6E4F-665A1260170D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9C3D11B8-8591-4E04-9295-5033EA51287A}.Debug|Any CPU.ActiveCfg = Debug
-		{9C3D11B8-8591-4E04-9295-5033EA51287A}.Debug|Any CPU.Build.0 = Debug
-		{9C3D11B8-8591-4E04-9295-5033EA51287A}.Release|Any CPU.ActiveCfg = Release
-		{9C3D11B8-8591-4E04-9295-5033EA51287A}.Release|Any CPU.Build.0 = Release
-		{116431C8-696B-47BF-BBB9-02D545600030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{116431C8-696B-47BF-BBB9-02D545600030}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{116431C8-696B-47BF-BBB9-02D545600030}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{116431C8-696B-47BF-BBB9-02D545600030}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F987317B-33D2-4F94-9E2F-CDCAB4BAEFBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8043A7BC-191D-16CE-75BA-37383233F99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8043A7BC-191D-16CE-75BA-37383233F99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8043A7BC-191D-16CE-75BA-37383233F99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8043A7BC-191D-16CE-75BA-37383233F99B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF7FCC4-2835-5786-6E4F-665A1260170D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF7FCC4-2835-5786-6E4F-665A1260170D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF7FCC4-2835-5786-6E4F-665A1260170D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF7FCC4-2835-5786-6E4F-665A1260170D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

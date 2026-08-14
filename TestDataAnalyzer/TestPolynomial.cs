@@ -28,7 +28,7 @@ namespace TestStressStrainData
     		double [,] Cout = new double[myinPolynomialOrder+1,1];
 			double acceptablePrecision = 1.0E-8;
 					
-    		myPoly.PolynomialFit(myinPolynomialOrder,myX,myY, ref Cout,ref SEi,ref Rsquared,ref residualSumSquared);
+			myPoly.PolynomialFit(myinPolynomialOrder,myX,myY, out Cout,out SEi,out Rsquared,out residualSumSquared);
     		
     		Console.WriteLine("Inside TestFirstOrder, double = " + Cout);
     		Console.ReadLine();
@@ -53,7 +53,7 @@ namespace TestStressStrainData
     		double [,] Cout = new double[myinPolynomialOrder+1,1];
 			double acceptablePrecision = 1.0E-7;
 					
-    		myPoly.PolynomialFit(myinPolynomialOrder,myX,myY, ref Cout,ref SEi,ref Rsquared,ref residualSumSquared);
+			myPoly.PolynomialFit(myinPolynomialOrder,myX,myY, out Cout,out SEi,out Rsquared,out residualSumSquared);
     		
     		Console.WriteLine("Inside TestFirstOrder, double = " + Cout);
     		Console.ReadLine();
@@ -84,7 +84,7 @@ namespace TestStressStrainData
     		double [,] Cout = new double[myinPolynomialOrder+1,1];
 			double acceptablePrecision = 1.0E-6;
 					
-    		myPoly.PolynomialFit(myinPolynomialOrder,myX,myY, ref Cout,ref SEi,ref Rsquared,ref residualSumSquared);
+			myPoly.PolynomialFit(myinPolynomialOrder,myX,myY, out Cout,out SEi,out Rsquared,out residualSumSquared);
     		
     		Assert.AreEqual(15.8325392082099,Cout[0,0],acceptablePrecision);
     		Assert.AreEqual(-0.000829009595370651,Cout[1,0],acceptablePrecision);

@@ -513,5 +513,71 @@ namespace DataAnalyzer.Plots
                                              "Stress", "Raw Data", "Zeroed", "Raw Data Used for Linear Fit", "Linear Fit for Zeroeing", "Linear Fit for Zeroed");
 
         }
+
+		public void PlotMaker17(){
+			//Plot 17:  all specimens, stress vs strain, zeroed data extended out to the common strain,
+			//vs the LOESS mean points and global polynomial fit through that extended data.
+			//This is the same view as PlotMaker5, but built on the extrapolated pool, so the extra
+			//points past each specimen's original last point are the extrapolated ones.
+			if (analyze.TotalExtrapolated == null){
+				MessageBox.Show("No extrapolated data to plot.");
+				return;
+			}
+			PointPairList list20 = new PointPairList();
+			PointPairList list21 = new PointPairList();
+			PointPairList list22 = new PointPairList();
+			PointPairList list23 = new PointPairList();
+			for (j = 0; j < analyze.CombinedDataExtrapolated.GetUpperBound(0)+1; j++){
+				list20.Add(analyze.CombinedDataExtrapolated[j,1], analyze.CombinedDataExtrapolated[j,0]);
+			}
+			for (j = 0; j < analyze.TotalExtrapolated.MeanData.GetUpperBound(0)+1; j++){
+				list21.Add(analyze.TotalExtrapolated.MeanData[j,1], analyze.TotalExtrapolated.MeanData[j,0]);
+				list22.Add(analyze.TotalExtrapolated.MeanData[j,1],
+				           analyze.TotalExtrapolated.MeanData[j,0] + analyze.TotalExtrapolated.SECoefficients[j,0],
+				           analyze.TotalExtrapolated.MeanData[j,0] - analyze.TotalExtrapolated.SECoefficients[j,0]);
+			}
+			//Sweep the global fit across the whole extrapolated range, not just up to the strain cutoff
+			double tempx;
+			for (j = 0; j < 500; j++){
+				tempx = 0 + (analyze.ExtrapXCommon/500)*j;
+				list23.Add(tempx, Polynomial.EvaluatePolynomial(tempx, analyze.TotalExtrapolated.FinalCout));
+			}
+			Plot3e pl3e = new Plot3e(list20, list21, list22, list23, "All Specimens Extrapolated to Strain "
+			                         + analyze.ExtrapXCommon + " (last " + analyze.ExtrapPoints + " points): "
+			                         + material + ": " + temperature + "K ", "Strain", "Stress",
+			                         "Zeroed + Extrapolated Data", "Mean Points", "error", "Polynomial Fit");
+		}
+
+		public void PlotMaker18(){
+			//Plot 18:  the NU counterpart of PlotMaker17 -- all specimens with transverse gauges,
+			//transverse vs axial strain, extended out to the common axial strain.  The fit slope
+			//here is Poisson's ratio rather than a modulus.
+			if (analyze.NUExtrapolated == null){
+				MessageBox.Show("No extrapolated transverse strain data to plot.");
+				return;
+			}
+			PointPairList list24 = new PointPairList();
+			PointPairList list25 = new PointPairList();
+			PointPairList list26 = new PointPairList();
+			PointPairList list27 = new PointPairList();
+			for (j = 0; j < analyze.CombinedNUDataExtrapolated.GetUpperBound(0)+1; j++){
+				list24.Add(analyze.CombinedNUDataExtrapolated[j,1], analyze.CombinedNUDataExtrapolated[j,0]);
+			}
+			for (j = 0; j < analyze.NUExtrapolated.MeanData.GetUpperBound(0)+1; j++){
+				list25.Add(analyze.NUExtrapolated.MeanData[j,1], analyze.NUExtrapolated.MeanData[j,0]);
+				list26.Add(analyze.NUExtrapolated.MeanData[j,1],
+				           analyze.NUExtrapolated.MeanData[j,0] + analyze.NUExtrapolated.SECoefficients[j,0],
+				           analyze.NUExtrapolated.MeanData[j,0] - analyze.NUExtrapolated.SECoefficients[j,0]);
+			}
+			double tempx;
+			for (j = 0; j < 500; j++){
+				tempx = 0 + (analyze.ExtrapXCommon/500)*j;
+				list27.Add(tempx, Polynomial.EvaluatePolynomial(tempx, analyze.NUExtrapolated.FinalCout));
+			}
+			Plot3e pl3e = new Plot3e(list24, list25, list26, list27, "All Specimens Extrapolated to Axial Strain "
+			                         + analyze.ExtrapXCommon + " (last " + analyze.ExtrapPoints + " points): "
+			                         + material + ": " + temperature + "K ", "Axial Strain", "Transverse Strain",
+			                         "Zeroed + Extrapolated Data", "Mean Points", "error", "Polynomial Fit");
+		}
     }
 }

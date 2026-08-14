@@ -88,7 +88,7 @@ namespace DataAnalyzer.Math
 					//Cycles through all x to pick out those within the interval
 					if (inX[j] > Xstart && inX[j] <= Xend){
 						//assigns the x and y in the interval into temporary arrays, and 
-						//causes xbar to be zero (apperantly, gets rid of error)
+						//causes xbar to be zero (apparently, gets rid of error)
 						TempX[k] = inX[j]-Xbar[i];
 						TempY[k] = inY[j];
 						k=k+1;

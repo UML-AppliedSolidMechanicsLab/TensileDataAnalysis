@@ -86,6 +86,11 @@ namespace DataAnalyzer
             this.groupInputsGroupBox = new System.Windows.Forms.GroupBox();
             this.cbYieldStress = new System.Windows.Forms.CheckBox();
             this.tbMinPts = new System.Windows.Forms.TextBox();
+            this.tbExtrapPoints = new System.Windows.Forms.TextBox();
+            this.tbExtrapXCommon = new System.Windows.Forms.TextBox();
+            this.lExtrapolation = new System.Windows.Forms.Label();
+            this.lExtrapPoints = new System.Windows.Forms.Label();
+            this.lExtrapXCommon = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.lOffset = new System.Windows.Forms.Label();
@@ -103,6 +108,7 @@ namespace DataAnalyzer
             this.label11 = new System.Windows.Forms.Label();
             this.plotGroupBox = new System.Windows.Forms.GroupBox();
             this.bZeroeingPlot = new System.Windows.Forms.Button();
+            this.bExtrapolationPlot = new System.Windows.Forms.Button();
             this.YieldStressBttn = new System.Windows.Forms.Button();
             this.plotBttn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -640,6 +646,11 @@ namespace DataAnalyzer
             this.groupInputsGroupBox.Controls.Add(this.cbYieldStress);
             this.groupInputsGroupBox.Controls.Add(this.analyzeBttn);
             this.groupInputsGroupBox.Controls.Add(this.tbMinPts);
+            this.groupInputsGroupBox.Controls.Add(this.tbExtrapPoints);
+            this.groupInputsGroupBox.Controls.Add(this.tbExtrapXCommon);
+            this.groupInputsGroupBox.Controls.Add(this.lExtrapolation);
+            this.groupInputsGroupBox.Controls.Add(this.lExtrapPoints);
+            this.groupInputsGroupBox.Controls.Add(this.lExtrapXCommon);
             this.groupInputsGroupBox.Controls.Add(this.label28);
             this.groupInputsGroupBox.Controls.Add(this.label27);
             this.groupInputsGroupBox.Controls.Add(this.lOffset);
@@ -663,7 +674,7 @@ namespace DataAnalyzer
             this.groupInputsGroupBox.Controls.Add(this.label8);
             this.groupInputsGroupBox.Location = new System.Drawing.Point(12, 232);
             this.groupInputsGroupBox.Name = "groupInputsGroupBox";
-            this.groupInputsGroupBox.Size = new System.Drawing.Size(667, 125);
+            this.groupInputsGroupBox.Size = new System.Drawing.Size(667, 160);
             this.groupInputsGroupBox.TabIndex = 4;
             this.groupInputsGroupBox.TabStop = false;
             this.groupInputsGroupBox.Text = "Group Inputs";
@@ -688,7 +699,50 @@ namespace DataAnalyzer
             this.tbMinPts.TabIndex = 42;
             this.tbMinPts.Text = "2";
             this.tbMinPts.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
+            //
+            // lExtrapolation
+            //
+            this.lExtrapolation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lExtrapolation.Location = new System.Drawing.Point(12, 125);
+            this.lExtrapolation.Name = "lExtrapolation";
+            this.lExtrapolation.Size = new System.Drawing.Size(110, 17);
+            this.lExtrapolation.TabIndex = 44;
+            this.lExtrapolation.Text = "Extrapolation";
+            //
+            // lExtrapPoints
+            //
+            this.lExtrapPoints.Location = new System.Drawing.Point(130, 127);
+            this.lExtrapPoints.Name = "lExtrapPoints";
+            this.lExtrapPoints.Size = new System.Drawing.Size(170, 17);
+            this.lExtrapPoints.TabIndex = 45;
+            this.lExtrapPoints.Text = "End Points Used For Fit";
+            //
+            // tbExtrapPoints
+            //
+            this.tbExtrapPoints.Location = new System.Drawing.Point(302, 124);
+            this.tbExtrapPoints.Name = "tbExtrapPoints";
+            this.tbExtrapPoints.Size = new System.Drawing.Size(40, 20);
+            this.tbExtrapPoints.TabIndex = 46;
+            this.tbExtrapPoints.Text = "20";
+            this.tbExtrapPoints.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            //
+            // lExtrapXCommon
+            //
+            this.lExtrapXCommon.Location = new System.Drawing.Point(360, 127);
+            this.lExtrapXCommon.Name = "lExtrapXCommon";
+            this.lExtrapXCommon.Size = new System.Drawing.Size(180, 17);
+            this.lExtrapXCommon.TabIndex = 47;
+            this.lExtrapXCommon.Text = "Extrapolate Out To Strain";
+            //
+            // tbExtrapXCommon
+            //
+            this.tbExtrapXCommon.Location = new System.Drawing.Point(545, 124);
+            this.tbExtrapXCommon.Name = "tbExtrapXCommon";
+            this.tbExtrapXCommon.Size = new System.Drawing.Size(55, 20);
+            this.tbExtrapXCommon.TabIndex = 48;
+            this.tbExtrapXCommon.Text = "50";
+            this.tbExtrapXCommon.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            //
             // label28
             // 
             this.label28.Location = new System.Drawing.Point(172, 42);
@@ -821,6 +875,7 @@ namespace DataAnalyzer
             // plotGroupBox
             // 
             this.plotGroupBox.BackColor = System.Drawing.SystemColors.Control;
+            this.plotGroupBox.Controls.Add(this.bExtrapolationPlot);
             this.plotGroupBox.Controls.Add(this.bZeroeingPlot);
             this.plotGroupBox.Controls.Add(this.YieldStressBttn);
             this.plotGroupBox.Controls.Add(this.plotBttn);
@@ -828,9 +883,9 @@ namespace DataAnalyzer
             this.plotGroupBox.Controls.Add(this.groupBox3);
             this.plotGroupBox.Controls.Add(this.typeGroupBox);
             this.plotGroupBox.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.plotGroupBox.Location = new System.Drawing.Point(13, 363);
+            this.plotGroupBox.Location = new System.Drawing.Point(13, 398);
             this.plotGroupBox.Name = "plotGroupBox";
-            this.plotGroupBox.Size = new System.Drawing.Size(319, 176);
+            this.plotGroupBox.Size = new System.Drawing.Size(319, 205);
             this.plotGroupBox.TabIndex = 5;
             this.plotGroupBox.TabStop = false;
             this.plotGroupBox.Text = "Plotting Options";
@@ -865,6 +920,16 @@ namespace DataAnalyzer
             this.plotBttn.Size = new System.Drawing.Size(75, 29);
             this.plotBttn.TabIndex = 3;
             this.plotBttn.Text = "Plot";
+            //
+            // bExtrapolationPlot
+            //
+            this.bExtrapolationPlot.Location = new System.Drawing.Point(190, 171);
+            this.bExtrapolationPlot.Name = "bExtrapolationPlot";
+            this.bExtrapolationPlot.Size = new System.Drawing.Size(120, 26);
+            this.bExtrapolationPlot.TabIndex = 49;
+            this.bExtrapolationPlot.Text = "Plot Extrapolation";
+            this.bExtrapolationPlot.UseVisualStyleBackColor = true;
+            this.bExtrapolationPlot.Click += new System.EventHandler(this.bExtrapolationPlot_Click);
             this.plotBttn.UseVisualStyleBackColor = true;
             this.plotBttn.Click += new System.EventHandler(this.PlotBttnClick);
             // 
@@ -1003,7 +1068,7 @@ namespace DataAnalyzer
             this.dataFilesGroupBox.Controls.Add(this.fileWriteBttn);
             this.dataFilesGroupBox.Controls.Add(this.groupBox5);
             this.dataFilesGroupBox.Controls.Add(this.groupBox4);
-            this.dataFilesGroupBox.Location = new System.Drawing.Point(344, 363);
+            this.dataFilesGroupBox.Location = new System.Drawing.Point(344, 398);
             this.dataFilesGroupBox.Name = "dataFilesGroupBox";
             this.dataFilesGroupBox.Size = new System.Drawing.Size(335, 176);
             this.dataFilesGroupBox.TabIndex = 6;
@@ -1158,7 +1223,7 @@ namespace DataAnalyzer
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(693, 570);
+            this.ClientSize = new System.Drawing.Size(693, 634);
             this.Controls.Add(this.dataFilesGroupBox);
             this.Controls.Add(this.plotGroupBox);
             this.Controls.Add(this.groupInputsGroupBox);
@@ -1291,9 +1356,15 @@ namespace DataAnalyzer
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox tbMinPts;
+        private System.Windows.Forms.TextBox tbExtrapPoints;
+        private System.Windows.Forms.TextBox tbExtrapXCommon;
+        private System.Windows.Forms.Label lExtrapolation;
+        private System.Windows.Forms.Label lExtrapPoints;
+        private System.Windows.Forms.Label lExtrapXCommon;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox locPolyOrderTxtBx;
         private System.Windows.Forms.CheckBox cbYieldStress;
         private System.Windows.Forms.Button bZeroeingPlot;
+        private System.Windows.Forms.Button bExtrapolationPlot;
     }
 }

@@ -309,6 +309,8 @@ namespace DataAnalyzer
 				Convert.ToDouble(locPolyOrderTxtBx.Text);
 				Convert.ToDouble(rMinTxtBx.Text);
 				Convert.ToInt32(tbMinPts.Text);
+				Convert.ToInt32(tbExtrapPoints.Text);
+				Convert.ToDouble(tbExtrapXCommon.Text);
 				if (cbYieldStress.Checked){
 					Convert.ToDouble(offsetPercentTxtBx.Text);
 				}
@@ -320,7 +322,7 @@ namespace DataAnalyzer
 			
 			//finish off inputlist by adding group inputs!!!
 			material = materialTxtBox.Text;
-			groupInputsList = new string[7];
+			groupInputsList = new string[9];
 			temperature = temperatureTxtBox.Text;
 			
 			
@@ -331,6 +333,8 @@ namespace DataAnalyzer
 			groupInputsList[4] = (temperatureTxtBox.Text);
 			groupInputsList[5] = (numberofFiles.ToString());
 			groupInputsList[6] = (numberofTranFiles.ToString());
+			groupInputsList[7] = (tbExtrapPoints.Text);
+			groupInputsList[8] = (tbExtrapXCommon.Text);
 			
 			
 			double [] offsetArray = new double [4];
@@ -374,6 +378,20 @@ namespace DataAnalyzer
 				dataFilesGroupBox.Visible = false;
 				return;
 			}
+			catch(ArgumentOutOfRangeException ex){
+				if (ex.ParamName == "extrapPoints"){
+					MessageBox.Show("Invalid \"Last # Points\": must be at least 2, greater than the global " +
+					                "polynomial order, and no more than the number of points in the shortest " +
+					                "specimen curve.");
+				}
+				else{
+					MessageBox.Show("Invalid \"Extrapolate out to strain (x)\": must be at least as large as the largest final x " +
+					                "value across all specimens.");
+				}
+				plotGroupBox.Visible = false;
+				dataFilesGroupBox.Visible = false;
+				return;
+			}
 			catch(AppDomainUnloadedException){
 				MessageBox.Show("Couldn't find offset intersection.  Try changing the offset or checking the input.");
 				plotGroupBox.Visible = false;
@@ -400,7 +418,7 @@ namespace DataAnalyzer
 			analyzeBttn.Text = "Re-Analyze";
 			plotGroupBox.Visible = true;
 			dataFilesGroupBox.Visible = true;
-			
+
 			MessageBox.Show("Done Analyzing");
 		}
 		//Plotting Options group
@@ -525,6 +543,18 @@ namespace DataAnalyzer
         {
 			lOffset.Enabled = cbYieldStress.Checked;
 			offsetPercentTxtBx.Enabled = cbYieldStress.Checked;
+        }
+
+        private void bExtrapolationPlot_Click(object sender, EventArgs e)
+        {
+            //Plot the pooled zeroed data extended out to the common strain, plus the LOESS mean
+            //points and global fit through it.  Stress/strain, and transverse/axial if it exists.
+            fileNumber = Convert.ToInt16(fileNumberBox.Text);
+            PlotMaker pm = new PlotMaker(analyze, numberofFiles, temperature, material, fileNumber);
+            pm.PlotMaker17();
+            if (numberofTranFiles != 0){
+                pm.PlotMaker18();
+            }
         }
 
         private void bZeroeingPlot_Click(object sender, EventArgs e)
